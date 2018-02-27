@@ -1,0 +1,21 @@
+---
+# handlers file for postgrey
+- name: start postgrey
+  service:
+    name: postgrey
+    state: started
+
+- name: stop postgrey
+  service:
+    name: postgrey
+    state: stopped
+
+- name: restart postgrey
+  service:
+    name: postgrey
+    state: restarted
+
+- name: reload postgrey
+  service:
+    name: postgrey
+    state: reloaded

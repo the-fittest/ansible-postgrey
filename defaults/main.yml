@@ -1,0 +1,16 @@
+---
+# defaults file for postgrey
+postgrey_packages:
+  - postgrey
+
+postgrey_additional_packages: []
+
+postgrey_config_files: postgrey.j2
+
+postgrey_ip: '127.0.0.1'
+postgrey_port: 10023
+postgrey_delay: 60
+postgrey_text: ' Please try again later if you think you are right here'
+postgrey_whitelists:
+  - whitelist_clients.local.j2
+  - whitelist_recipients.local.j2

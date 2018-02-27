@@ -1,0 +1,58 @@
+---
+# tasks file for postgrey
+- name: Install postgrey Packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ postgrey_packages }}"
+    - "{{ postgrey_additional_packages }}"
+  tags:
+    - package
+    - postgrey
+
+- name: Create postgrey config directory
+  file:
+    path: "/etc/postgrey"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  tags:
+    - config
+    - postgrey
+
+- name: Configure whitelists
+  template:
+    src: "{{ item }}"
+    dest: "/etc/postgrey/{{ item | basename | replace('.j2', '') }}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - "{{ postgrey_whitelists }}"
+  tags:
+    - config
+    - postgrey
+  notify: "restart postgrey"
+
+- name: Configure postgrey
+  when: postgrey_config_files | length > 0
+  template:
+    src: "{{ item }}"
+    dest: "/etc/default/{{ item | basename | replace('.j2', '') }}"
+  with_items:
+    - "{{ postgrey_config_files }}"
+  tags:
+    - config
+    - postgrey
+  notify: "restart postgrey"
+
+- name: Start and enable postgrey
+  service:
+    name: postgrey
+    enabled: yes
+    state: started
+  tags:
+    - service
+    - postgrey

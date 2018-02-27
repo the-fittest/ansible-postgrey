@@ -1,0 +1,24 @@
+# Molecule managed
+---
+package:
+  postgrey:
+    installed: true
+service:
+  postgrey:
+    enabled: true
+    running: true
+port:
+  tcp:10023:
+    listening: true
+    ip:
+      - 127.0.0.1
+user:
+  postgrey:
+    exists: true
+    groups:
+      - postgrey
+    home: /var/lib/postgrey
+    shell: /bin/false
+group:
+  postgrey:
+    exists: true
