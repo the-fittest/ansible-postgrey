@@ -1,5 +1,6 @@
 ---
 # tasks file for postgrey
+
 - name: Install postgrey Packages
   package:
     name: "{{ item }}"
@@ -41,6 +42,9 @@
   template:
     src: "{{ item }}"
     dest: "/etc/default/{{ item | basename | replace('.j2', '') }}"
+    owner: root
+    group: root
+    mode: 0644
   with_items:
     - "{{ postgrey_config_files }}"
   tags:
